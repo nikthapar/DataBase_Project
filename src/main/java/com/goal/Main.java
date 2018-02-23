@@ -28,41 +28,58 @@ public class Main {
 			 if(x==0) {
 				 throw new QueryNotCorrect("Query Not Correct,Check Order by statement");
 			 }
+			 //para.get();
 			 Test1 read = new Test1();
 			 LinkedHashMap<String,ArrayList<Object>> map = read.FileRead();
 			 int row=read.getHeader();
 			 ExeQuery test1 = new ExeQuery(QueryParameter.myList , map, row, para.cond1, para.logic, para.cond3, para.fun1,para.cond2);
 			 test1.Matrix();
 			 if(para.cond1.size() !=0 && para.cond3.size() !=0) {
-				 test1.exwhere();
+				 x=test1.exwhere();
+				 if(x==0)
+					 throw new Exception();
 				 test1.orderBy();
 				 if(para.cond2.size() !=0)
 			         test1.group();
-				 else
-				    test1.colfeild();
+				 else {
+					 x=test1.colfeild();
+					 if(x==0)
+						 throw new Exception("Column Name not present in Table");
+				 }
 			 }
 			 else if(para.cond1.size() !=0 || para.cond3.size() !=0) {
 				 if(para.cond1.size() !=0) {
-					 test1.exwhere();
+					 x=test1.exwhere();
+					 if(x==0)
+						 throw new Exception("Query Not Correct,Check Where Condition");
 					 if(para.cond2.size() !=0)
 			             test1.group();
-					 else
-					     test1.colfeild();
+					 else {
+						 x=test1.colfeild();
+						 if(x==0)
+							 throw new Exception("Column Name not present in Table");
+					 }
 				 }
 				 else {
 					 test1.orderBy();
 					 if(para.cond2.size() !=0)
 			             test1.group();
-					 else
-					      test1.colfeild();
+					 else {
+						 x=test1.colfeild();
+						 if(x==0)
+							 throw new Exception("Column Name not present in Table");
+					 }
 				 }
 			 }
 			 else if(para.cond2.size()==0 && para.fun1.size()!=0)
 			    test1.aggregate();
 			 else if(para.cond2.size() !=0)
 			     test1.group();
-			 else
-				 test1.colfeild();
+			 else {
+				 x=test1.colfeild();
+				 if(x==0)
+					 throw new Exception("Column Name not present in Table");
+			 }
 		}catch(QueryNotCorrect e) {
 			System.out.println(e.getMessage());
 		}
@@ -71,6 +88,8 @@ public class Main {
 		}
     	 catch (IOException e) {
 			System.out.println("File Not Found , Please add the correct file name or path");
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
 		}
          
     }

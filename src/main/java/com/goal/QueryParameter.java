@@ -62,7 +62,8 @@ public class QueryParameter {
 					String s = "";
 					for(int j = prev+2;j<=curr;j++)
 						s=s+str[j];
-					arr1.add(s);
+					if( !s.equals(""))
+					     arr1.add(s);
 					cond1.add(arr1);
 					break;
 				}
@@ -73,7 +74,8 @@ public class QueryParameter {
 					String s = "";
 					for(int j = prev+2;j<=curr;j++)
 						s=s+str[j];
-					arr1.add(s);
+					if( !s.equals(""))
+					     arr1.add(s);
 					cond1.add(arr1);
 					if(str[temp].equals("or"))
 						logic.add("or");
@@ -137,8 +139,10 @@ public class QueryParameter {
 		return 1;
 	}
 	void get() {
-		for(String temp : cond2)
-			System.out.print(temp+" ");
+		for(ArrayList<String> temp : cond1) {
+			System.out.println(temp.size());
+			System.out.println();
+		}
 		
 			
 	}

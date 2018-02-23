@@ -56,10 +56,10 @@ public class ExeQuery {
     		    	count2++;
     		    }
     }
-     void exwhere() {
+     int  exwhere() {
     	ArrayList<ArrayList<Integer>> id = new ArrayList<>();
     	for(ArrayList<String> cond : cond1) {
-    		int col=0;
+    		int col=-1;
     		for(int i=0 ; i< key.size();i++) {
     			if(arr[0][i].equals(cond.get(0))) {
     				col=i;
@@ -67,7 +67,10 @@ public class ExeQuery {
     				
     			}
     		}
-    		//System.out.println(arr[0][col]);
+    		if(cond.size()!=3)
+    			return 0;
+    		if(col == -1)
+    			return 0;
     	 ArrayList<Integer> id_1=new ArrayList<>();
    		 for(int i=1;i<row+1;i++) {
    			 if(cond.get(1).equals("=")) {
@@ -129,19 +132,21 @@ public class ExeQuery {
   					 }
   				 }
    			 }
+   			 else
+   				 return 0;
    		 }
    		 id.add(id_1);
 
     		
     	}
     	
-    	 for(ArrayList<Integer> temp1 : id) {
+    	/* for(ArrayList<Integer> temp1 : id) {
     		 for(Integer temp2 : temp1) {
     			 System.out.print(temp2 + " ");
     		 }
     		 System.out.println();
     		 
-    	 }
+    	 }*/
          id_2 = new ArrayList<>(id.get(0));
     	 int get1 = 1;
     	 for(String log : logic) {
@@ -165,7 +170,7 @@ public class ExeQuery {
     		// System.out.println("hello");
     		 get1++;
     	 }
-    	 for(Integer temp : id_2) {
+    	/* for(Integer temp : id_2) {
     		 System.out.print(temp+" ");
     	 }
     	 System.out.println();
@@ -174,7 +179,8 @@ public class ExeQuery {
     			 System.out.print(arr[temp][j]+" ");
     		 }
     		 System.out.println();
-    	 }
+    	 }*/
+    	 return 1;
     	
    }
      void orderBy() {
@@ -205,21 +211,26 @@ public class ExeQuery {
     	
     	 
      }
-    void colfeild() {
+    int colfeild() {
     	List<String> col = QueryParameter.myList;
     	List<Integer> val = new ArrayList<>();
     	for(String temp : col) {
+    		int flag=0;
     		for(int j=0;j<key.size();j++) {
     			String a= temp.toLowerCase();
     			String b = arr[0][j].toLowerCase();
-    			if(a.equals(b)) {
+    		    if(a.equals(b)) {
     				val.add(j);
+    				flag=1;
     				break;
     			}
-    				
     		}
+    		/*if(flag == 0)
+    			return 0;*/
     	}
     	if(col.get(0).equals("*")) {
+    		if(col.size() > 1)
+    			return 0;
     		for(Integer temp : id_2) {
     			for(int j=0;j<key.size();j++) {
     				System.out.print(arr[temp][j] +" ");
@@ -235,6 +246,7 @@ public class ExeQuery {
     			System.out.println();
     		}
     	}
+    	return 1;
     }
     void aggregate() {
     	for(String s : fun1) {
